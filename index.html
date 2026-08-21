@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Event — הפלטפורמה החכמה לספקי אירועים</title>
+<meta name="description" content="הצטרפו ל-Get Event: מרקטפלייס אירועים חכם עם GetEvent AI. ללא עמלות, מנוי קבוע, לידים איכותיים. 60 יום חינם למצטרפים המוקדמים.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=Assistant:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-deep:#0F0A18; --ink:#150E1F; --wine:#3B2564; --wine-mid:#5B3B85;
+    --lilac:#B497E0; --lilac-glow:#C9A8E8; --gold:#C9A96A; --gold-soft:#E8D9B5;
+    --bg-light:#F8F3FC; --bg-card:#FFFFFF; --border:#E9DFF2;
+    --text:#1F1526; --muted:#71647F; --green:#1E8E5A; --green-soft:#E7F6EE;
+    --red:#C74444; --red-soft:#FDEDED;
+    --shadow: 0 20px 50px rgba(59,37,100,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Assistant',sans-serif; color:var(--text); background:var(--bg-light);
+    line-height:1.6; overflow-x:hidden;
+  }
+  h1,h2,h3,.rubik{font-family:'Rubik',sans-serif;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
+  a{color:inherit;}
+  .eyebrow{
+    font-family:'Rubik',sans-serif; font-weight:700; font-size:12px; letter-spacing:2px;
+    color:var(--lilac); text-transform:uppercase;
+  }
+  .eyebrow.dark{color:var(--wine-mid);}
+  section{padding:90px 0;}
+  @media(max-width:720px){ section{padding:56px 0;} .wrap{padding:0 18px;} }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50; background:rgba(15,10,24,0.85);
+    backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .logo{font-family:'Rubik',sans-serif; font-weight:800; font-size:16px; letter-spacing:3px; color:#fff;}
+  .nav-cta{
+    background:var(--lilac); color:var(--ink-deep); font-family:'Rubik',sans-serif; font-weight:800;
+    font-size:13px; padding:10px 20px; border-radius:11px; text-decoration:none; white-space:nowrap;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; overflow:hidden; padding:70px 0 90px;
+    background:linear-gradient(160deg, var(--ink-deep) 0%, var(--wine) 55%, var(--wine-mid) 100%);
+  }
+  .hero::before{
+    content:""; position:absolute; top:-120px; left:-100px; width:480px; height:480px; border-radius:50%;
+    background:radial-gradient(circle, rgba(180,151,224,0.4), rgba(201,169,106,0.12) 55%, transparent 75%);
+    filter:blur(4px); animation:breathe 8s ease-in-out infinite;
+  }
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:.8;} 50%{transform:scale(1.15);opacity:1;}}
+  .hero-grid{
+    position:relative; display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;
+  }
+  @media(max-width:900px){ .hero-grid{grid-template-columns:1fr; gap:44px;} }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:8px; background:rgba(201,169,106,0.14);
+    border:1px solid rgba(201,169,106,0.4); color:var(--gold); font-family:'Rubik',sans-serif;
+    font-weight:700; font-size:12px; padding:7px 14px; border-radius:20px; margin-bottom:22px;
+  }
+  .hero h1{
+    color:#fff; font-size:46px; line-height:1.14; font-weight:900; letter-spacing:-0.5px;
+  }
+  .hero h1 span{color:var(--lilac-glow);}
+  @media(max-width:720px){ .hero h1{font-size:32px;} }
+  .hero-sub{
+    color:#DED3EC; font-weight:300; font-size:17px; margin-top:20px; max-width:520px; line-height:1.7;
+  }
+  .hero-ctas{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--lilac); color:var(--ink-deep); font-family:'Rubik',sans-serif; font-weight:800;
+    font-size:15px; padding:16px 30px; border-radius:14px; text-decoration:none; border:none; cursor:pointer;
+    box-shadow:0 12px 30px rgba(180,151,224,0.3);
+  }
+  .btn-ghost{
+    background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.22);
+    font-family:'Rubik',sans-serif; font-weight:700; font-size:15px; padding:15px 26px; border-radius:14px;
+    text-decoration:none;
+  }
+  .hero-stats{display:flex; gap:28px; margin-top:44px; flex-wrap:wrap;}
+  .hero-stat b{display:block; font-family:'Rubik',sans-serif; font-weight:900; font-size:22px; color:#fff;}
+  .hero-stat span{display:block; font-size:11.5px; color:#B8ACC9; margin-top:3px;}
+
+  /* ---------- AI DEMO (signature element) ---------- */
+  .ai-demo{
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.14); border-radius:24px;
+    padding:22px; backdrop-filter:blur(10px);
+  }
+  .ai-demo-head{display:flex; align-items:center; gap:10px; margin-bottom:16px;}
+  .ai-demo-dot{width:9px; height:9px; border-radius:50%; background:var(--lilac-glow);}
+  .ai-demo-title{font-family:'Rubik',sans-serif; font-weight:700; font-size:12.5px; color:#fff;}
+  .ai-bubble-user{
+    background:rgba(180,151,224,0.18); border:1px solid rgba(180,151,224,0.3); border-radius:16px 16px 4px 16px;
+    padding:13px 16px; color:#fff; font-size:14px; max-width:88%; margin-right:auto; margin-bottom:14px;
+    opacity:0; animation:fadeUp .6s ease forwards; animation-delay:.3s;
+  }
+  .ai-bubble-ai{
+    background:rgba(255,255,255,0.08); border-radius:16px 16px 16px 4px; padding:13px 16px;
+    color:#EAE3F5; font-size:13.5px; max-width:92%; margin-bottom:16px;
+    opacity:0; animation:fadeUp .6s ease forwards; animation-delay:1.1s;
+  }
+  @keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+  .match-card{
+    display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+    border-radius:14px; padding:11px 13px; margin-bottom:9px; opacity:0; animation:fadeUp .5s ease forwards;
+  }
+  .match-card:nth-of-type(1){animation-delay:1.7s;} .match-card:nth-of-type(2){animation-delay:1.95s;} .match-card:nth-of-type(3){animation-delay:2.2s;}
+  .match-avatar{width:38px; height:38px; border-radius:11px; flex-shrink:0; background:linear-gradient(135deg,var(--lilac),var(--wine-mid));}
+  .match-name{font-family:'Rubik',sans-serif; font-weight:700; font-size:12.5px; color:#fff;}
+  .match-meta{font-size:10.5px; color:#B8ACC9; margin-top:2px;}
+  .match-score{margin-right:auto; font-family:'Rubik',sans-serif; font-weight:800; font-size:11px; color:var(--gold);}
+
+  /* ---------- QUICK-GLANCE STRIP ---------- */
+  .glance{background:var(--ink); padding:0;}
+  .glance-strip{display:flex; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,0.08);}
+  .glance-item{
+    flex:1; min-width:140px; text-align:center; padding:26px 12px;
+    border-left:1px solid rgba(255,255,255,0.08);
+  }
+  .glance-item b{display:block; font-family:'Rubik',sans-serif; font-weight:900; font-size:19px; color:#fff;}
+  .glance-item span{display:block; font-size:11px; color:#B8ACC9; margin-top:4px;}
+
+  /* ---------- SECTION HEADS ---------- */
+  .sec-head{max-width:640px; margin-bottom:48px;}
+  .sec-head.center{margin-left:auto; margin-right:auto; text-align:center;}
+  .sec-head h2{font-size:32px; font-weight:900; margin-top:10px; line-height:1.25;}
+  .sec-head p{color:var(--muted); margin-top:14px; font-size:15.5px; font-weight:300; line-height:1.7;}
+  @media(max-width:720px){ .sec-head h2{font-size:25px;} }
+
+  /* ---------- PROBLEM ---------- */
+  .problem-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  @media(max-width:800px){ .problem-grid{grid-template-columns:1fr;} }
+  .problem-card{background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:30px;}
+  .problem-card .tag{
+    display:inline-block; font-family:'Rubik',sans-serif; font-weight:700; font-size:11px;
+    padding:5px 12px; border-radius:9px; margin-bottom:16px;
+  }
+  .tag.vendor{background:var(--gold-soft); color:#7A5F1E;}
+  .tag.customer{background:#E4EEFB; color:#2E5B99;}
+  .pain-row{display:flex; align-items:flex-start; gap:12px; margin-top:18px;}
+  .pain-icon{
+    width:30px; height:30px; border-radius:9px; background:var(--bg-light); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--wine-mid); font-weight:800;
+  }
+  .pain-row h4{font-family:'Rubik',sans-serif; font-weight:700; font-size:14.5px;}
+  .pain-row p{color:var(--muted); font-size:13px; margin-top:3px; font-weight:300;}
+
+  /* ---------- SOLUTION ---------- */
+  .solution{background:var(--ink);}
+  .solution .sec-head h2, .solution .eyebrow{color:#fff;}
+  .solution .sec-head p{color:#C7B9DA;}
+  .sol-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media(max-width:800px){ .sol-grid{grid-template-columns:1fr;} }
+  .sol-card{
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:28px;
+  }
+  .sol-card .num{font-family:'Rubik',sans-serif; font-weight:900; font-size:13px; color:var(--gold);}
+  .sol-card h3{color:#fff; font-size:18px; margin-top:12px;}
+  .sol-card p{color:#B8ACC9; font-size:13.5px; margin-top:10px; font-weight:300; line-height:1.65;}
+
+  /* ---------- COMPARISON ---------- */
+  .compare-wrap{display:grid; grid-template-columns:1fr 1fr; gap:0; border-radius:22px; overflow:hidden; box-shadow:var(--shadow);}
+  @media(max-width:800px){ .compare-wrap{grid-template-columns:1fr;} }
+  .compare-col{padding:34px 30px;}
+  .compare-col.old{background:#F1EDF6;}
+  .compare-col.new{background:linear-gradient(160deg, var(--wine) 0%, var(--ink-deep) 100%);}
+  .compare-col h3{font-size:16px; margin-bottom:20px;}
+  .compare-col.old h3{color:var(--muted);}
+  .compare-col.new h3{color:var(--gold);}
+  .compare-row{display:flex; align-items:center; gap:11px; padding:11px 0; border-bottom:1px solid rgba(0,0,0,0.06);}
+  .compare-col.new .compare-row{border-bottom-color:rgba(255,255,255,0.08);}
+  .compare-row .ic{width:20px; text-align:center; font-weight:900; flex-shrink:0;}
+  .compare-col.old .ic{color:var(--red);}
+  .compare-col.new .ic{color:var(--lilac-glow);}
+  .compare-row span{font-size:13.5px;}
+  .compare-col.old span{color:#4A4055;}
+  .compare-col.new span{color:#EAE3F5;}
+
+  /* ---------- MODEL ---------- */
+  .model-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;}
+  @media(max-width:800px){ .model-grid{grid-template-columns:1fr;} }
+  .price-card{
+    background:var(--bg-card); border:1px solid var(--border); border-radius:24px; padding:36px;
+    box-shadow:var(--shadow); text-align:center;
+  }
+  .price-card .amount{display:flex; align-items:baseline; justify-content:center; gap:5px; color:var(--wine);}
+  .price-card .amount .num{font-family:'Rubik',sans-serif; font-weight:900; font-size:52px;}
+  .price-card .amount .cur{font-family:'Rubik',sans-serif; font-weight:900; font-size:26px;}
+  .price-card .amount .permo{font-family:'Assistant',sans-serif; font-weight:600; font-size:15px; color:var(--muted); margin-right:2px;}
+  .price-card .per{color:var(--muted); font-size:13px; margin-top:2px;}
+  .price-card .or{font-size:12px; color:var(--muted); margin-top:10px;}
+  .price-badge{
+    display:inline-block; background:var(--green-soft); color:var(--green); font-family:'Rubik',sans-serif;
+    font-weight:800; font-size:12px; padding:8px 16px; border-radius:20px; margin-top:20px;
+  }
+  .model-points li{display:flex; align-items:flex-start; gap:12px; margin-bottom:20px; list-style:none;}
+  .model-points .ic{
+    width:32px; height:32px; border-radius:10px; background:var(--bg-light); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; color:var(--wine-mid); font-weight:900; font-size:14px;
+  }
+  .model-points h4{font-family:'Rubik',sans-serif; font-weight:700; font-size:15px;}
+  .model-points p{color:var(--muted); font-size:13.5px; margin-top:3px; font-weight:300;}
+
+  /* ---------- FOUNDING MEMBER / FORM ---------- */
+  .founding{
+    background:linear-gradient(160deg, var(--ink-deep) 0%, var(--wine) 60%, var(--wine-mid) 100%);
+    position:relative; overflow:hidden;
+  }
+  .founding::before{
+    content:""; position:absolute; bottom:-140px; right:-100px; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(201,169,106,0.25), transparent 70%);
+  }
+  .founding-grid{position:relative; display:grid; grid-template-columns:0.95fr 1.05fr; gap:50px; align-items:flex-start;}
+  @media(max-width:900px){ .founding-grid{grid-template-columns:1fr;} }
+  .founding h2{color:#fff; font-size:32px; font-weight:900; margin-top:10px;}
+  .founding-sub{color:#DED3EC; font-weight:300; margin-top:16px; font-size:15.5px; line-height:1.7;}
+  .perk-list{margin-top:28px;}
+  .perk-row{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
+  .perk-row .ic{
+    width:34px; height:34px; border-radius:10px; background:rgba(201,169,106,0.16); border:1px solid rgba(201,169,106,0.4);
+    display:flex; align-items:center; justify-content:center; color:var(--gold); font-weight:900; flex-shrink:0;
+  }
+  .perk-row span{color:#fff; font-family:'Rubik',sans-serif; font-weight:600; font-size:14.5px;}
+
+  .form-card{
+    background:rgba(255,255,255,0.97); border-radius:24px; padding:32px; box-shadow:0 30px 70px rgba(15,10,24,0.4);
+  }
+  .form-card h3{font-size:20px; font-weight:900;}
+  .form-card .sub{color:var(--muted); font-size:13px; margin-top:6px; margin-bottom:22px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-family:'Rubik',sans-serif; font-weight:700; font-size:12.5px; margin-bottom:6px; color:var(--text);}
+  .field input, .field select{
+    width:100%; height:46px; border-radius:11px; border:1px solid var(--border); background:var(--bg-light);
+    padding:0 14px; font-family:'Assistant',sans-serif; font-size:14px; color:var(--text);
+  }
+  .field input:focus, .field select:focus{outline:2px solid var(--lilac); outline-offset:1px;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media(max-width:480px){ .field-row{grid-template-columns:1fr;} }
+  .submit-btn{
+    width:100%; background:var(--wine); color:#fff; font-family:'Rubik',sans-serif; font-weight:800;
+    font-size:15px; padding:16px; border-radius:13px; border:none; cursor:pointer; margin-top:6px;
+  }
+  .submit-btn:disabled{opacity:0.6; cursor:default;}
+  .form-note{font-size:11px; color:var(--muted); text-align:center; margin-top:12px;}
+  .form-status{font-size:13px; margin-top:14px; text-align:center; font-weight:700; display:none;}
+  .form-status.ok{display:block; color:var(--green);}
+  .form-status.err{display:block; color:var(--red);}
+
+  /* ---------- TEAM ---------- */
+  .team-strip{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:28px;
+    background:var(--bg-card); border:1px solid var(--border); border-radius:22px; padding:32px 36px;
+  }
+  .team-names{font-family:'Rubik',sans-serif; font-weight:800; font-size:16px;}
+  .team-role{color:var(--muted); font-size:13px; margin-top:4px; font-weight:300;}
+  .live-badge{
+    display:flex; align-items:center; gap:8px; background:var(--green-soft); color:var(--green);
+    font-family:'Rubik',sans-serif; font-weight:800; font-size:12.5px; padding:9px 16px; border-radius:20px;
+  }
+  .live-dot{width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 1.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.4;}}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink-deep); padding:40px 0; text-align:center;}
+  footer .logo{margin-bottom:10px; justify-content:center; display:flex;}
+  footer p{color:#8579A0; font-size:12px;}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap"><div class="logo">GET EVENT</div><a href="#signup" class="nav-cta">הרשמה מוקדמת</a></div></nav>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-eyebrow">★ Founding Members · 60 יום חינם</div>
+      <h1>הפלטפורמה האחודה והחכמה<br>לסגירת <span>אירועים</span> בישראל</h1>
+      <p class="hero-sub">מרקטפלייס אחד למעל 35 קטגוריות שירותי אירועים, עם מנוע התאמה חכם — GetEvent AI — שמביא לכם פניות רלוונטיות בלי לשלם על פרסום שלא מתורגם ללקוחות.</p>
+      <div class="hero-ctas">
+        <a href="#signup" class="btn-primary">הרשמה מוקדמת — 60 יום חינם</a>
+        <a href="#solution" class="btn-ghost">איך זה עובד</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>100,000+</b><span>אירועים בישראל מדי שנה</span></div>
+        <div class="hero-stat"><b>35+</b><span>קטגוריות שירות</span></div>
+        <div class="hero-stat"><b>0%</b><span>עמלה על עסקאות</span></div>
+      </div>
+    </div>
+    <div class="ai-demo">
+      <div class="ai-demo-head"><div class="ai-demo-dot"></div><div class="ai-demo-title">GetEvent AI</div></div>
+      <div class="ai-bubble-user">מחפשת DJ טוב לחתונה בתל אביב, 15 ביוני, עד 200 אורחים</div>
+      <div class="ai-bubble-ai">מצאתי 3 DJs באזור תל אביב עם זמינות לתאריך, לפי הסגנון והתקציב שציינת:</div>
+      <div class="match-card"><div class="match-avatar"></div><div><div class="match-name">DJ רועי כהן</div><div class="match-meta">תל אביב · עונה תוך ~8 דק'</div></div><div class="match-score">96%</div></div>
+      <div class="match-card"><div class="match-avatar"></div><div><div class="match-name">Sound Nation</div><div class="match-meta">גוש דן · עונה תוך ~15 דק'</div></div><div class="match-score">91%</div></div>
+      <div class="match-card"><div class="match-avatar"></div><div><div class="match-name">DJ ליאור אבני</div><div class="match-meta">רמת גן · עונה תוך ~20 דק'</div></div><div class="match-score">88%</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="glance">
+  <div class="wrap"><div class="glance-strip">
+    <div class="glance-item"><b>₪100/חודש</b><span>מנוי קבוע, ללא הפתעות</span></div>
+    <div class="glance-item"><b>ללא עמלות</b><span>0% על כל עסקה שנסגרת</span></div>
+    <div class="glance-item"><b>60 שניות</b><span>הקמת פרופיל עסק</span></div>
+    <div class="glance-item"><b>AI Matching</b><span>לידים רלוונטיים, לא כמות</span></div>
+  </div></div>
+</div>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow dark">הבעיה בשוק</div><h2>שני צדדים של אותה שבירות</h2><p>הלקוח מבזבז זמן בחיפוש בין קבוצות פייסבוק ואינדקסים מיושנים. הספק מבזבז כסף על פרסום שלא ניתן למדוד.</p></div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="tag vendor">לספקים</span>
+        <div class="pain-row"><div class="pain-icon">₪</div><div><h4>עלויות שיווק גבוהות</h4><p>תקציבי פרסום שגדלים מול תשואה שקשה למדוד.</p></div></div>
+        <div class="pain-row"><div class="pain-icon">?</div><div><h4>לידים לא רלוונטיים</h4><p>תלות בעמלות תיווך יקרות ובפניות שרובן לא מבשילות לעסקה.</p></div></div>
+      </div>
+      <div class="problem-card">
+        <span class="tag customer">ללקוחות</span>
+        <div class="pain-row"><div class="pain-icon">⏱</div><div><h4>סרבול וזמן יקר</h4><p>עשרות שעות חיפוש בין קבוצות פייסבוק, וואטסאפ ואינדקסים מיושנים.</p></div></div>
+        <div class="pain-row"><div class="pain-icon">✕</div><div><h4>חוסר שקיפות</h4><p>קושי להשוות בין ספקים ולסמוך על דירוגים אמיתיים.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="solution" id="solution">
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow">הפתרון</div><h2>מרקטפלייס אחוד + GetEvent AI</h2><p>מנוע התאמה חכם שמחליף את החיפוש הידני — משני הצדדים.</p></div>
+    <div class="sol-grid">
+      <div class="sol-card"><div class="num">01</div><h3>Marketplace אחוד</h3><p>מעל 35 קטגוריות שירות — צלמים, DJs, אולמות, עיצוב, קייטרינג ועוד — הכול תחת חיפוש אחד.</p></div>
+      <div class="sol-card"><div class="num">02</div><h3>GetEvent AI</h3><p>מבין שפה טבעית, לומד תקציב, סגנון ומיקום, ומבצע התאמה מדויקת בזמן אמת — לא רשימה, אלא התאמה.</p></div>
+      <div class="sol-card"><div class="num">03</div><h3>שקיפות מלאה</h3><p>פנייה ישירה לבית העסק ללא מתווכים, דירוגים מאומתים, והצעת מחיר מותאמת אישית.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head center" style="margin-left:auto;margin-right:auto;"><div class="eyebrow dark">היתרון התחרותי</div><h2>למה לא פשוט להמשיך כמו תמיד?</h2></div>
+    <div class="compare-wrap">
+      <div class="compare-col old">
+        <h3>הדרך הישנה</h3>
+        <div class="compare-row"><span class="ic">✕</span><span>קבוצות פייסבוק/וואטסאפ — הצפת הודעות וחוסר סדר</span></div>
+        <div class="compare-row"><span class="ic">✕</span><span>אינדקסים ותיקים — ממשק מיושן, חיפוש ידני</span></div>
+        <div class="compare-row"><span class="ic">✕</span><span>מודל עמלות ופרסום יקר</span></div>
+        <div class="compare-row"><span class="ic">✕</span><span>אין דירוג אמין או מנוע התאמה</span></div>
+        <div class="compare-row"><span class="ic">✕</span><span>אפס שקיפות מחירים</span></div>
+      </div>
+      <div class="compare-col new">
+        <h3>GET EVENT</h3>
+        <div class="compare-row"><span class="ic">✓</span><span>ריכוז מלא של 35+ קטגוריות במקום אחד</span></div>
+        <div class="compare-row"><span class="ic">✓</span><span>ממשק מודרני עם דירוגים מאומתים</span></div>
+        <div class="compare-row"><span class="ic">✓</span><span>מנוי קבוע של 100 ₪ — ללא עמלות סגירה</span></div>
+        <div class="compare-row"><span class="ic">✓</span><span>התאמה אישית מבוססת GetEvent AI</span></div>
+        <div class="compare-row"><span class="ic">✓</span><span>פנייה ישירה, בלי מתווכים</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap model-grid">
+    <div class="price-card">
+      <div class="amount"><span class="cur">₪</span><span class="num">100</span><span class="permo">/חודש</span></div>
+      <div class="per">או 1,200 ₪ לשנה</div>
+      <div class="price-badge">סגירת אירוע אחד מכסה את כל השנה</div>
+    </div>
+    <div>
+      <div class="eyebrow dark">המודל העסקי</div>
+      <h2 style="font-size:28px;font-weight:900;margin-top:10px;">פשוט, נגיש, בלי הפתעות</h2>
+      <ul class="model-points" style="margin-top:24px;">
+        <li><div class="ic">1</div><div><h4>חסם כניסה אפסי</h4><p>מחיר נמוך וקבוע — בלי עמלה על כל עסקה שנסגרת.</p></div></li>
+        <li><div class="ic">2</div><div><h4>תזרים צפוי</h4><p>מנוי קבוע, בלי מעקב מורכב אחרי עמלות וגבייה.</p></div></li>
+        <li><div class="ic">3</div><div><h4>אוטומציה מלאה</h4><p>הרשמה, אונבורדינג וסליקה דיגיטליים מההתחלה ועד הסוף.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="founding" id="signup">
+  <div class="wrap founding-grid">
+    <div>
+      <div class="hero-eyebrow">Founding Member</div>
+      <h2>הצטרפו למאה הספקים הראשונים</h2>
+      <p class="founding-sub">מי שנרשם עכשיו, לפני ההשקה הרשמית, מקבל תנאים שלא יחזרו.</p>
+      <div class="perk-list">
+        <div class="perk-row"><div class="ic">★</div><span>60 יום שימוש חינם באפליקציה מיום ההשקה</span></div>
+        <div class="perk-row"><div class="ic">⚡</div><span>עדיפות באלגוריתם ההתאמה של GetEvent AI</span></div>
+        <div class="perk-row"><div class="ic">⏱</div><span>הקמת פרופיל מוכן תוך כ-60 שניות</span></div>
+      </div>
+    </div>
+    <div class="form-card">
+      <h3>השארת פרטים להרשמה מוקדמת</h3>
+      <div class="sub">נחזור אליכם לפני ההשקה עם כל הפרטים.</div>
+      <form id="signupForm">
+        <div class="field-row">
+          <div class="field"><label for="businessName">שם העסק</label><input id="businessName" required></div>
+          <div class="field"><label for="contactName">שם איש קשר</label><input id="contactName" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="phone">טלפון</label><input id="phone" type="tel" required></div>
+          <div class="field"><label for="email">אימייל</label><input id="email" type="email" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="category">תחום עיסוק</label>
+            <select id="category">
+              <option value="">בחרו תחום</option>
+              <option>DJ ותקליטנות</option><option>זמרים</option><option>צילום</option>
+              <option>קייטרינג</option><option>אולמות וגני אירועים</option><option>הגברה ותאורה</option>
+              <option>עיצוב וקישוט</option><option>אבטחה</option><option>אחר</option>
+            </select>
+          </div>
+          <div class="field"><label for="region">אזור פעילות</label>
+            <select id="region">
+              <option value="">בחרו אזור</option>
+              <option>צפון</option><option>מרכז</option><option>תל אביב והסביבה</option>
+              <option>ירושלים</option><option>דרום</option><option>כל הארץ</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">שליחה — הצטרפות ל-Founding Members</button>
+        <div class="form-status" id="formStatus"></div>
+        <div class="form-note">הפרטים נשמרים אצלנו בלבד ולא יועברו לצד שלישי.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="team-strip">
+      <div><div class="team-names">נועם אמסלם ועמית אמסלם</div><div class="team-role">מייסדים — בנו את המוצר והאפליקציה בעצמם</div></div>
+      <div class="live-badge"><div class="live-dot"></div>המוצר חי ופעיל כבר עכשיו</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo" style="color:#fff;">GET EVENT</div>
+    <p>© Get Event · כל הזכויות שמורות</p>
+  </div>
+</footer>
+
+<script>
+  // ===== Fill in your real Supabase project values before publishing =====
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // e.g. https://xxxx.supabase.co
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  // =========================================================================
+
+  const form = document.getElementById('signupForm');
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('formStatus');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.className = 'form-status';
+    status.textContent = '';
+
+    const payload = {
+      business_name: document.getElementById('businessName').value.trim(),
+      contact_name: document.getElementById('contactName').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      category: document.getElementById('category').value || null,
+      region: document.getElementById('region').value || null,
+    };
+
+    if (SUPABASE_URL === 'YOUR_SUPABASE_URL') {
+      status.className = 'form-status err';
+      status.textContent = 'טופס עדיין לא מחובר — יש להזין את פרטי Supabase בקוד.';
+      return;
+    }
+
+    btn.disabled = true; btn.textContent = 'שולח...';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/landing_signups`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      status.className = 'form-status ok';
+      status.textContent = 'תודה! נרשמתם בהצלחה — נחזור אליכם לפני ההשקה.';
+      form.reset();
+    } catch (err) {
+      status.className = 'form-status err';
+      status.textContent = 'משהו השתבש. אפשר לנסות שוב או לפנות אלינו ישירות.';
+      console.error(err);
+    } finally {
+      btn.disabled = false; btn.textContent = 'שליחה — הצטרפות ל-Founding Members';
+    }
+  });
+</script>
+
+</body>
+</html>
