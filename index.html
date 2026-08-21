@@ -19,6 +19,17 @@
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *, *::before, *::after{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+  :focus-visible{outline:3px solid var(--lilac); outline-offset:2px; border-radius:4px;}
+  .skip-link{
+    position:absolute; right:12px; top:-60px; background:var(--lilac); color:var(--ink-deep);
+    font-family:'Rubik',sans-serif; font-weight:800; padding:12px 20px; border-radius:10px;
+    z-index:100; text-decoration:none; transition:top .2s;
+  }
+  .skip-link:focus{top:12px;}
   body{
     font-family:'Assistant',sans-serif; color:var(--text); background:var(--bg-light);
     line-height:1.6; overflow-x:hidden;
@@ -42,6 +53,8 @@
   }
   nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
   .logo{font-family:'Rubik',sans-serif; font-weight:800; font-size:16px; letter-spacing:3px; color:#fff;}
+  .logo{display:flex; align-items:center; gap:9px;}
+  .logo-icon{width:26px; height:26px; object-fit:contain;}
   .nav-cta{
     background:var(--lilac); color:var(--ink-deep); font-family:'Rubik',sans-serif; font-weight:800;
     font-size:13px; padding:10px 20px; border-radius:11px; text-decoration:none; white-space:nowrap;
@@ -251,6 +264,10 @@
   }
   .submit-btn:disabled{opacity:0.6; cursor:default;}
   .form-note{font-size:11px; color:var(--muted); text-align:center; margin-top:12px;}
+  .consent-row{display:flex; align-items:flex-start; gap:10px; margin:16px 0; background:var(--bg-light); border-radius:12px; padding:13px 14px;}
+  .consent-row input{width:18px; height:18px; margin-top:2px; flex-shrink:0;}
+  .consent-row label{font-size:11.5px; color:var(--muted); line-height:1.6; font-weight:400;}
+  .consent-row a{color:var(--wine); font-weight:700; text-decoration:underline;}
   .form-status{font-size:13px; margin-top:14px; text-align:center; font-weight:700; display:none;}
   .form-status.ok{display:block; color:var(--green);}
   .form-status.err{display:block; color:var(--red);}
@@ -276,10 +293,12 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">דלג לתוכן הראשי</a>
 
-<nav><div class="wrap"><div class="logo">GET EVENT</div><a href="#signup" class="nav-cta">הרשמה מוקדמת</a></div></nav>
 
-<section class="hero">
+<nav><div class="wrap"><div class="logo"><img src="data:image/png;base64,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" alt="" class="logo-icon">GET EVENT</div><a href="#signup" class="nav-cta">הרשמה מוקדמת</a></div></nav>
+
+<section class="hero" id="main">
   <div class="wrap hero-grid">
     <div>
       <div class="hero-eyebrow">★ Founding Members · 60 יום חינם</div>
@@ -295,7 +314,7 @@
         <div class="hero-stat"><b>0%</b><span>עמלה על עסקאות</span></div>
       </div>
     </div>
-    <div class="ai-demo">
+    <div class="ai-demo" role="img" aria-label="הדמיה: משתמשת מחפשת DJ לחתונה בתל אביב, ו-GetEvent AI מציג שלוש התאמות מדורגות עם אחוזי התאמה וזמני תגובה">
       <div class="ai-demo-head"><div class="ai-demo-dot"></div><div class="ai-demo-title">GetEvent AI</div></div>
       <div class="ai-bubble-user">מחפשת DJ טוב לחתונה בתל אביב, 15 ביוני, עד 200 אורחים</div>
       <div class="ai-bubble-ai">מצאתי 3 DJs באזור תל אביב עם זמינות לתאריך, לפי הסגנון והתקציב שציינת:</div>
@@ -397,6 +416,7 @@
         <div class="perk-row"><div class="ic">★</div><span>60 יום שימוש חינם באפליקציה מיום ההשקה</span></div>
         <div class="perk-row"><div class="ic">⚡</div><span>עדיפות באלגוריתם ההתאמה של GetEvent AI</span></div>
         <div class="perk-row"><div class="ic">⏱</div><span>הקמת פרופיל מוכן תוך כ-60 שניות</span></div>
+        <div class="perk-row"><div class="ic">👥</div><span>חבר מביא חבר — הפניה של בעל עסק נוסף שנרשם = חודש נוסף במתנה</span></div>
       </div>
     </div>
     <div class="form-card">
@@ -428,9 +448,14 @@
             </select>
           </div>
         </div>
+        <div class="field"><label for="referredBy">דרך מי הגעתם? (רשות)</label><input id="referredBy" placeholder="שם העסק שהפנה אתכם"></div>
+        <div class="consent-row">
+          <input type="checkbox" id="consent" required>
+          <label for="consent">קראתי ואני מסכימ/ה ל<a href="#privacy-policy">מדיניות הפרטיות</a> ול<a href="#site-terms">תנאי השימוש</a>. מסירת הפרטים היא לבחירתכם, ומטרתה יצירת קשר לגבי ההצטרפות ל-Get Event וההשקה. אני מאשר/ת קבלת עדכונים בנושא בדוא"ל/טלפון/וואטסאפ.</label>
+        </div>
         <button type="submit" class="submit-btn" id="submitBtn">שליחה — הצטרפות ל-Founding Members</button>
         <div class="form-status" id="formStatus"></div>
-        <div class="form-note">הפרטים נשמרים אצלנו בלבד ולא יועברו לצד שלישי.</div>
+        <div class="form-note">הפרטים מאוחסנים אצל ספקי תשתית מאובטחים (Supabase) ומשמשים רק ליצירת קשר בנוגע ל-Get Event.</div>
       </form>
     </div>
   </div>
@@ -439,15 +464,60 @@
 <section>
   <div class="wrap">
     <div class="team-strip">
-      <div><div class="team-names">נועם אמסלם ועמית אמסלם</div><div class="team-role">מייסדים — בנו את המוצר והאפליקציה בעצמם</div></div>
-      <div class="live-badge"><div class="live-dot"></div>המוצר חי ופעיל כבר עכשיו</div>
+      <div><div class="team-names">צוות מייסדים ישראלי</div><div class="team-role">בנינו את המוצר והאפליקציה בעצמנו, מהיסוד</div></div>
+      <div class="live-badge"><div class="live-dot"></div>המוצר בפיילוט מתקדם, לקראת השקה</div>
     </div>
+  </div>
+</section>
+
+<section id="legal" style="background:var(--bg-card); padding:60px 0;">
+  <div class="wrap" style="max-width:820px;">
+    <h2 style="font-size:22px; margin-bottom:24px;">מידע משפטי ונגישות</h2>
+
+    <details id="privacy-policy" style="margin-bottom:14px; border:1px solid var(--border); border-radius:14px; padding:18px 20px;">
+      <summary style="cursor:pointer; font-family:'Rubik',sans-serif; font-weight:700; font-size:15px;">מדיניות פרטיות</summary>
+      <div style="margin-top:16px; font-size:13.5px; color:var(--muted); line-height:1.8;">
+        <p><b>מטרת איסוף המידע:</b> הפרטים שאתם משאירים בטופס (שם עסק, איש קשר, טלפון, אימייל, תחום, אזור, גורם מפנה) נאספים לצורך יצירת קשר בנוגע להצטרפותכם ל-Get Event כ-Founding Member, כולל עדכונים על מהלך ההשקה וקבלת ההטבה שנרשמתם עבורה.</p>
+        <p style="margin-top:10px;"><b>חובה או רשות:</b> מסירת הפרטים היא לבחירתכם בלבד. אי-מסירתם משמעה שלא נוכל ליצור עמכם קשר לגבי ההרשמה המוקדמת.</p>
+        <p style="margin-top:10px;"><b>בעל מאגר המידע:</b> Get Event (ח.פ./ע.מ יפורסם בהמשך).</p>
+        <p style="margin-top:10px;"><b>העברת מידע לצדדים נוספים:</b> המידע מאוחסן אצל ספק תשתית (Supabase) לצורך שמירה מאובטחת בלבד, ואינו נמכר או מועבר לגורמי פרסום או שיווק חיצוניים.</p>
+        <p style="margin-top:10px;"><b>זכויותיכם:</b> על פי חוק הגנת הפרטיות, עומדת לכם הזכות לעיין במידע שנאסף עליכם, לבקש את תיקונו או את מחיקתו. לצורך כך ניתן לפנות לפרטי הקשר שיפורסמו באתר.</p>
+        <p style="margin-top:10px;"><b>דיוור:</b> סימון תיבת ההסכמה בטופס מהווה הסכמה מפורשת לקבלת עדכונים בנוגע ל-Get Event באמצעים שציינתם. ניתן לבטל את ההסכמה בכל עת בפנייה אלינו.</p>
+        <p style="margin-top:14px; font-size:11.5px;">הערה: זו טיוטת מדיניות מקיפה שנועדה לשמש בסיס לבדיקה משפטית לפני ההשקה הרשמית — אינה תחליף לייעוץ משפטי.</p>
+      </div>
+    </details>
+
+    <details id="site-terms" style="margin-bottom:14px; border:1px solid var(--border); border-radius:14px; padding:18px 20px;">
+      <summary style="cursor:pointer; font-family:'Rubik',sans-serif; font-weight:700; font-size:15px;">תנאי שימוש באתר</summary>
+      <div style="margin-top:16px; font-size:13.5px; color:var(--muted); line-height:1.8;">
+        <p>אתר זה הוא דף נחיתה טרום-השקה של Get Event, המיועד לאיסוף פרטי בעלי עסקים המעוניינים בהצטרפות מוקדמת. השארת פרטים בטופס <b>אינה מהווה התחייבות חוזית מחייבת</b> מצד Get Event או מצד בעל העסק, אלא הבעת עניין בלבד.</p>
+        <p style="margin-top:10px;">הטבות ה-Founding Member (לרבות תקופת השימוש החינמית ותוכנית ההפניות) כפופות לתנאים הסופיים שיפורסמו במועד ההשקה הרשמית, ו-Get Event שומרת לעצמה את הזכות לעדכן את תנאי ההצעה עד למועד זה.</p>
+        <p style="margin-top:10px;">כל הזכויות בתוכן האתר, במיתוג, בלוגו ובשם "Get Event" שייכות ל-Get Event ומוגנות בדיני זכויות יוצרים וסימני מסחר. אין להעתיק או לעשות שימוש מסחרי בתוכן האתר ללא הסכמה בכתב.</p>
+        <p style="margin-top:10px;">האתר מסופק כמות שהוא. ככל שהדין מתיר, Get Event לא תישא באחריות לנזק הנובע משימוש באתר. על תנאים אלה יחולו דיני מדינת ישראל.</p>
+        <p style="margin-top:14px; font-size:11.5px;">הערה: טיוטה לבדיקה משפטית לפני השקה — אינה תחליף לייעוץ משפטי.</p>
+      </div>
+    </details>
+
+    <details id="accessibility-statement" style="border:1px solid var(--border); border-radius:14px; padding:18px 20px;">
+      <summary style="cursor:pointer; font-family:'Rubik',sans-serif; font-weight:700; font-size:15px;">הצהרת נגישות</summary>
+      <div style="margin-top:16px; font-size:13.5px; color:var(--muted); line-height:1.8;">
+        <p>אתר זה פועל לעמידה בתקן הישראלי ת"י 5568 ובהנחיות WCAG 2.0 ברמה AA, מכוח חוק שוויון זכויות לאנשים עם מוגבלות ותקנות נגישות השירות.</p>
+        <p style="margin-top:10px;"><b>מה הונגש:</b> מבנה סמנטי ברור עם היררכיית כותרות, ניווט מלא במקלדת, קישור "דלג לתוכן", תוויות מפורשות לכל שדה בטופס, ניגודיות צבעים העומדת בדרישות AA, וכיבוד הגדרת "הפחתת תנועה" (prefers-reduced-motion) במערכת ההפעלה.</p>
+        <p style="margin-top:10px;"><b>מגבלות ידועות:</b> האתר בבדיקה מתמשכת ועשויים להיות בו פערי נגישות נקודתיים שטרם אותרו.</p>
+        <p style="margin-top:10px;"><b>נתקלתם בבעיה?</b> נשמח שתפנו אלינו בפרטי הקשר שיפורסמו באתר, ונטפל בפנייה בהקדם.</p>
+      </div>
+    </details>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <div class="logo" style="color:#fff;">GET EVENT</div>
+    <div style="margin:14px 0; display:flex; gap:18px; justify-content:center; flex-wrap:wrap;">
+      <a href="#privacy-policy" style="color:#B8ACC9; font-size:12px; text-decoration:underline;">מדיניות פרטיות</a>
+      <a href="#site-terms" style="color:#B8ACC9; font-size:12px; text-decoration:underline;">תנאי שימוש</a>
+      <a href="#accessibility-statement" style="color:#B8ACC9; font-size:12px; text-decoration:underline;">הצהרת נגישות</a>
+    </div>
     <p>© Get Event · כל הזכויות שמורות</p>
   </div>
 </footer>
@@ -474,6 +544,9 @@
       email: document.getElementById('email').value.trim(),
       category: document.getElementById('category').value || null,
       region: document.getElementById('region').value || null,
+      referred_by: document.getElementById('referredBy').value.trim() || null,
+      consent_given: document.getElementById('consent').checked,
+      consent_timestamp: new Date().toISOString(),
     };
 
     if (SUPABASE_URL === 'YOUR_SUPABASE_URL') {
