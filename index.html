@@ -33,7 +33,7 @@
   .wa-float{
     position:fixed; bottom:22px; left:22px; width:58px; height:58px; border-radius:50%;
     background:#25D366; display:flex; align-items:center; justify-content:center;
-    box-shadow:0 8px 24px rgba(0,0,0,0.28); z-index:80; transition:transform .15s ease;
+    box-shadow:0 8px 24px rgba(0,0,0,0.28); z-index:80; transition:transform .15s ease, bottom .2s ease;
   }
   .wa-float:hover{transform:scale(1.08);}
   @media (prefers-reduced-motion: reduce){ .wa-float{transition:none;} }
@@ -630,16 +630,24 @@
   #a11y-btn:focus-visible, #a11y-panel button:focus-visible{outline:3px solid #C9A96A !important; outline-offset:2px;}
 </style>
 <script>
-  // Reposiciona o botão de acessibilidade acima do banner de cookies, seja qual for a altura real dele
+  // Reposiciona os botões flutuantes (WhatsApp + acessibilidade) evitando qualquer sobreposição,
+  // tanto entre eles quanto com o banner de cookies — em qualquer tamanho de tela
   function a11yReposition(){
     var banner = document.getElementById('cookie-banner');
     var btn = document.getElementById('a11y-btn');
     var panel = document.getElementById('a11y-panel');
+    var waBtn = document.querySelector('.wa-float');
     var bannerVisible = banner.style.display !== 'none';
     var bannerHeight = bannerVisible ? banner.offsetHeight : 0;
-    var btnBottom = bannerHeight + (bannerVisible ? 16 : 24);
-    btn.style.bottom = btnBottom + 'px';
-    panel.style.bottom = (btnBottom + 60) + 'px';
+    var bannerGap = bannerVisible ? 16 : 22;
+
+    var waBottom = bannerHeight + bannerGap;
+    if(waBtn) waBtn.style.bottom = waBottom + 'px';
+
+    var waHeight = waBtn ? waBtn.offsetHeight : 58;
+    var a11yBottom = waBottom + waHeight + 14;
+    btn.style.bottom = a11yBottom + 'px';
+    panel.style.bottom = (a11yBottom + 60) + 'px';
   }
   window.addEventListener('resize', a11yReposition);
 
